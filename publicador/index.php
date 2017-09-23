@@ -1,13 +1,17 @@
 <?php
-//ini_set('display_errors', 'On');
-//error_reporting(E_ALL | E_STRICT);
+// echo dirname(__FILE__);
+ini_set('display_errors', 'On');
+error_reporting(E_ALL | E_STRICT);
+
+ini_set('max_execution_time', '300');
+
 
 	$owner_screen_name = 'PeraNewsBR';//peranewsint  //peranewsbr
 
 require_once  ( dirname(__FILE__) . '/twitte-json/vendor/tmhOAuth.php');
 require ( dirname(__FILE__) . '/twitte-json/vendor/twitter_auth.php');
 require ( dirname(__FILE__) .'/twitte-json/vendor/simple_html_dom.php');
-include ( dirname(__FILE__) . '/wp-blog-header.php');
+include ('../wp-blog-header.php');
 
 global $wpdb;
 // $recent_post_date = $wpdb->get_row("SELECT * FROM $wpdb->posts ORDER BY post_date desc LIMIT 1"  , 'ARRAY_A');
@@ -66,8 +70,8 @@ echo "Iniciando....<br>";
 	//}
 			foreach ($returnSecao as $line){
 	$jsonMontado = array();
-	      // echo "<br><br>                 Post:<br>";
-	      // print_r ($line);
+	      echo "<br><br>                 Post:<br>";
+	      print_r ($line);
 				$iddaPagina = $line->id;
 				$urlPagina = $line->entities->urls[0]->url;
 				$urlTwittePic = $line->entities->media[0]->url;
@@ -92,7 +96,7 @@ echo "Iniciando....<br>";
 	       if($urlPagina != ''){
 	        $arquivoPost = "";
 	        $html = file_get_html($urlPagina);
-					if(isset($html)){
+					if(($html->find('body',0))){
 	          if($userProfile == 'autoesporte'){
 	                  $xPathWrap_P = $html->find('div[id=materia-parsed-corpo]',0);
 
@@ -214,4 +218,3 @@ file_put_contents('controlePublicacao.txt',$textPublicacao2,FILE_APPEND);
 	//echo date('d-m-Y H:i:s')." menos de ".$cache_life." segundos<br><br>";
 }
 ?>
-
